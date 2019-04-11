@@ -1,25 +1,40 @@
 require_relative "board"
 require 'colorize'
+require "byebug"
 
-puts "Only contractors write code this bad.".yellow
+# puts "Only contractors write code this bad.".yellow
 
 class SudokuGame
   def self.from_file(filename)
-    board = Board.from_file(filename)
-    self.new(board)
+    @board = Board.from_file(filename)
+    self.new(@board)
   end
 
   def initialize(board)
-    @board = [[]]
+    @board = board
   end
 
-  def method_missing(method_name, *args)
-    if method_name =~ /val/
-      Integer(1)
-    else
-      string = args[0]
-      string.split(",").map! { |char| Integer(char) + 1 + rand(2) + " is the position"}
-    end
+  # def method_missing(method_name, *args)
+  #   # debugger
+  #   if method_name =~ /val/
+  #     Integer(1)
+  #   else
+  #     string = args[0]
+  #     string.split(",").map! do |char| 
+  #       Integer(char) + 1 + rand(2)
+        
+  #     end
+
+  #     puts " is the position"
+  #   end
+  # end
+
+  def parse_pos(position)
+    position.split(",").map { |char| Integer(char) }
+  end
+
+  def parse_val(value)
+    Integer(value)
   end
 
   def get_pos
@@ -71,7 +86,7 @@ class SudokuGame
   def valid_pos?(pos)
     pos.is_a?(Array) &&
       pos.length == 2 &&
-      pos.all? { |x| x.between?(0, board.size - 1) }
+      pos.all? { |x| x.between?(0, board.rows.length - 1) }
   end
 
   def valid_val?(val)
@@ -85,3 +100,4 @@ end
 
 
 game = SudokuGame.from_file("puzzles/sudoku1.txt")
+game.run

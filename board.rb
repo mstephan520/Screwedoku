@@ -28,8 +28,7 @@ class Board
 
   def []=(pos, value)
     x, y = pos
-    tile = grid[x][y]
-    tile.value = value
+    grid[x][y] = Tile.new(value)
   end
 
   def columns

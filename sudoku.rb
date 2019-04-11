@@ -28,6 +28,11 @@ class SudokuGame
     pos
   end
 
+  def []=(pos, val)
+    row, col = pos
+    board[row][col] = val
+  end
+
   def get_val
     val = nil
     until val && valid_val?(val)

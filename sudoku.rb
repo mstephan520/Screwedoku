@@ -1,4 +1,5 @@
 require_relative "board"
+require "byebug"
 
 class SudokuGame
   def self.from_file(filename)
@@ -48,8 +49,8 @@ class SudokuGame
 
   def play_turn
     board.render
-    val = get_pos
-    pos = get_val
+    pos = get_pos #get_val
+    val = get_val #get_pos
     board[pos] = val
   end
 
@@ -72,6 +73,11 @@ class SudokuGame
   def valid_val?(val)
     val.is_a?(Integer) &&
       val.between?(0, 9)
+  end
+
+  def []=(position, value)
+    row, col = position
+    board[row][col]= value
   end
 
   private
